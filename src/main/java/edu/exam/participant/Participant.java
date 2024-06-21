@@ -35,4 +35,12 @@ public class Participant {
         this.birthdate = birthdate;
         this.team = team;
     }
+
+    public Participant(String name, Gender gender, LocalDate birthdate, String team, List<Discipline> disciplines) {
+        this.name = name;
+        this.gender = gender;
+        this.birthdate = birthdate;
+        this.team = team;
+        this.disciplines = disciplines;
+    }
 }

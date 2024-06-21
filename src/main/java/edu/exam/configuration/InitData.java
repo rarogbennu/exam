@@ -85,7 +85,6 @@ public class InitData implements CommandLineRunner {
         participantRepository.saveAll(participants);
     }
 
-
     private void createResults() {
         System.out.println("Create results");
 

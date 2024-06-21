@@ -28,12 +28,12 @@ class DisciplineServiceTest {
 
     @Test
     void testCreateDiscipline() {
-        Discipline discipline = new Discipline("100-meterløb", ResultType.TIME);
+        Discipline discipline = new Discipline("100 meter", ResultType.TIME);
         when(disciplineRepository.save(any(Discipline.class))).thenReturn(discipline);
 
         Discipline createdDiscipline = disciplineService.createDiscipline(discipline);
         assertNotNull(createdDiscipline);
-        assertEquals("100m", createdDiscipline.getDisciplineName());
+        assertEquals("100 meter", createdDiscipline.getDisciplineName());
         verify(disciplineRepository, times(1)).save(discipline);
     }
 
@@ -44,20 +44,20 @@ class DisciplineServiceTest {
 
         Optional<Discipline> foundDiscipline = disciplineService.getDisciplineById(1L);
         assertTrue(foundDiscipline.isPresent());
-        assertEquals("Long Jump", foundDiscipline.get().getDisciplineName());
+        assertEquals("Længdespring", foundDiscipline.get().getDisciplineName());
         verify(disciplineRepository, times(1)).findById(1L);
     }
 
     @Test
     void testUpdateDiscipline() {
-        Discipline discipline = new Discipline("Højdespring", ResultType.DISTANCE);
-        Discipline updatedDiscipline = new Discipline("High Jump", ResultType.DISTANCE);
+        Discipline discipline = new Discipline("Højdespring", ResultType.POINTS);
+        Discipline updatedDiscipline = new Discipline("High jump", ResultType.DISTANCE);
         when(disciplineRepository.findById(1L)).thenReturn(Optional.of(discipline));
         when(disciplineRepository.save(any(Discipline.class))).thenReturn(updatedDiscipline);
 
         Discipline result = disciplineService.updateDiscipline(1L, updatedDiscipline);
         assertNotNull(result);
-        assertEquals("High Jump", result.getDisciplineName());
+        assertEquals("High jump", result.getDisciplineName());
         assertEquals(ResultType.DISTANCE, result.getResultType());
         verify(disciplineRepository, times(1)).findById(1L);
         verify(disciplineRepository, times(1)).save(updatedDiscipline);

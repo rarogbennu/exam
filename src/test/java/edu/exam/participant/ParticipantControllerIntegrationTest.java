@@ -19,21 +19,22 @@ public class ParticipantControllerIntegrationTest {
 
     @Test
     public void testCreateParticipant() throws Exception {
-        String participantJson = "{\"name\":\"John Doe\",\"gender\":\"Male\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\"}";
+        String participantJson = "{\"name\":\"John Doe\",\"gender\":\"MALE\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\",\"disciplines\":[]}";
 
         mockMvc.perform(post("/participants")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(participantJson))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("John Doe"))
-                .andExpect(jsonPath("$.gender").value("Male"))
+                .andExpect(jsonPath("$.gender").value("MALE"))
                 .andExpect(jsonPath("$.birthdate").value("2000-01-01"))
-                .andExpect(jsonPath("$.team").value("Team A"));
+                .andExpect(jsonPath("$.team").value("Team A"))
+                .andExpect(jsonPath("$.disciplines").isArray());
     }
 
     @Test
     public void testGetParticipantById() throws Exception {
-        String participantJson = "{\"name\":\"Jane Doe\",\"gender\":\"Female\",\"birthdate\":\"1995-05-15\",\"team\":\"Team B\"}";
+        String participantJson = "{\"name\":\"Jane Doe\",\"gender\":\"FEMALE\",\"birthdate\":\"1995-05-15\",\"team\":\"Team B\",\"disciplines\":[]}";
 
         mockMvc.perform(post("/participants")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -44,15 +45,16 @@ public class ParticipantControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Jane Doe"))
-                .andExpect(jsonPath("$.gender").value("Female"))
+                .andExpect(jsonPath("$.gender").value("FEMALE"))
                 .andExpect(jsonPath("$.birthdate").value("1995-05-15"))
-                .andExpect(jsonPath("$.team").value("Team B"));
+                .andExpect(jsonPath("$.team").value("Team B"))
+                .andExpect(jsonPath("$.disciplines").isArray());
     }
 
     @Test
     public void testUpdateParticipant() throws Exception {
-        String participantJson = "{\"name\":\"John Doe\",\"gender\":\"Male\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\"}";
-        String updatedParticipantJson = "{\"name\":\"John Smith\",\"gender\":\"Male\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\"}";
+        String participantJson = "{\"name\":\"John Doe\",\"gender\":\"MALE\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\",\"disciplines\":[]}";
+        String updatedParticipantJson = "{\"name\":\"John Smith\",\"gender\":\"MALE\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\",\"disciplines\":[]}";
 
         mockMvc.perform(post("/participants")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -63,12 +65,16 @@ public class ParticipantControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updatedParticipantJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("John Smith"));
+                .andExpect(jsonPath("$.name").value("John Smith"))
+                .andExpect(jsonPath("$.gender").value("MALE"))
+                .andExpect(jsonPath("$.birthdate").value("2000-01-01"))
+                .andExpect(jsonPath("$.team").value("Team A"))
+                .andExpect(jsonPath("$.disciplines").isArray());
     }
 
     @Test
     public void testDeleteParticipant() throws Exception {
-        String participantJson = "{\"name\":\"John Doe\",\"gender\":\"Male\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\"}";
+        String participantJson = "{\"name\":\"John Doe\",\"gender\":\"MALE\",\"birthdate\":\"2000-01-01\",\"team\":\"Team A\",\"disciplines\":[]}";
 
         mockMvc.perform(post("/participants")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -84,6 +90,7 @@ public class ParticipantControllerIntegrationTest {
     public void testGetAllParticipants() throws Exception {
         mockMvc.perform(get("/participants")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
     }
 }

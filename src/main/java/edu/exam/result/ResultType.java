@@ -5,4 +5,3 @@ public enum ResultType {
     DISTANCE,
     POINTS
 }
-
